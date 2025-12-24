@@ -16,8 +16,8 @@ const sendHealthCheck = async () => {
 };
 
 function getRandomInterval() {
-  // Random time between 2 and 3 hours in milliseconds
-  return Math.floor(Math.random() * (10800000 - 7200000 + 1)) + 7200000;
+  // Random time between 1 and 3 minutes in milliseconds
+  return Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000;
 };
 
 // Start the timer to send requests randomly
@@ -25,8 +25,15 @@ const startHealthCheckTimer = () => {
   // Send first check immediately
   sendHealthCheck();
   
-  // Then send randomly
-  setInterval(sendHealthCheck, getRandomInterval);
+  // Then send with random intervals using recursive setTimeout
+  const scheduleNextCheck = () => {
+    setTimeout(() => {
+      sendHealthCheck();
+      scheduleNextCheck(); // Schedule the next check with a new random interval
+    }, getRandomInterval());
+  };
+  
+  scheduleNextCheck();
 };
 
 // Handle incoming health check
@@ -36,7 +43,7 @@ const receiveHealthCheck = (req, res) => {
   
   res.json({
     status: 'active',
-    server: 'eventkick',
+    server: 'health',
     timestamp
   });
 };
