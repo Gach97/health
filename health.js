@@ -8,8 +8,9 @@ const PARTNER_URL1 = `${process.env.PARTNER1}`;
 const sendHealthCheck = async () => {
   try {
     const response = await axios.get(`${PARTNER_URL}/on`);
-    await axios.get(`${PARTNER_URL1}/`);
+    const response1 = await axios.get(`${PARTNER_URL1}/`);
     console.log('Health check sent to partner server:', response.data);
+    console.log('Health check sent to partner server:', response1.data);
   } catch (error) {
     console.error('Failed to send health check:', error.message);
   }
