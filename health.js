@@ -7,6 +7,8 @@ const PARTNER_URL1 = `${process.env.PARTNER1}`;
 // Function to send health check request
 const sendHealthCheck = async () => {
   try {
+    console.log('Sending health check to partner servers...');
+    console.log({PARTNER_URL, PARTNER_URL1});
     const response = await axios.get(`${PARTNER_URL}/on`);
     const response1 = await axios.get(`${PARTNER_URL1}/`);
     console.log('Health check sent to partner server:', response.data);
